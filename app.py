@@ -21,6 +21,9 @@ auth.set_access_token("2210920084-lNgn4Ptey2XveUJ0SLsGCIzneChjOEnwqaiNWdy", "tmE
 api = tweepy.API(auth, wait_on_rate_limit=True,
     wait_on_rate_limit_notify=True)
 
-tweets_listener = MyStreamListener(api)
-stream = tweepy.Stream(api.auth, tweets_listener)
-stream.filter(track=["$TSLA", "$NIO"], languages=["en"])
+# tweets_listener = MyStreamListener(api)
+# stream = tweepy.Stream(api.auth, tweets_listener)
+# stream.filter(track=["$TSLA", "$NIO"], languages=["en"])
+
+for tweet in tweepy.Cursor(api.search, q='@JimCramer',result_type='popular').items(5):
+    print(tweet)
