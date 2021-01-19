@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 
 # Authenticate to Twitter
 
-auth = tweepy.OAuthHandler("lX4x5JrUFU3M9oT61ArQveqBp", "h3QOWQAIINxYzRZy618KHlxTOSAb61wAtiLSYXEgXVRJoTwlTf")
+auth = OAuthHandler("lX4x5JrUFU3M9oT61ArQveqBp", "h3QOWQAIINxYzRZy618KHlxTOSAb61wAtiLSYXEgXVRJoTwlTf")
 auth.set_access_token("2210920084-lNgn4Ptey2XveUJ0SLsGCIzneChjOEnwqaiNWdy", "tmEoHlKVvjIcG9Y55r3Io6guPrxnqxMEdO9XsHd6sBcuc")
 
-authAPI = API(auth)
+authAPI = auth
 collection = []
 count = 0
 user = authAPI.get_user('@StockTwits')
