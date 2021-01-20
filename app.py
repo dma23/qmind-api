@@ -1,35 +1,38 @@
-from tweepy import OAuthHandler, Cursor
+from tweepy import OAuthHandler,API, Cursor
 from datetime import datetime, timedelta
 
 # Authenticate to Twitter
 
-auth = OAuthHandler("lX4x5JrUFU3M9oT61ArQveqBp", "h3QOWQAIINxYzRZy618KHlxTOSAb61wAtiLSYXEgXVRJoTwlTf")
-auth.set_access_token("2210920084-lNgn4Ptey2XveUJ0SLsGCIzneChjOEnwqaiNWdy", "tmEoHlKVvjIcG9Y55r3Io6guPrxnqxMEdO9XsHd6sBcuc")
+auth = OAuthHandler("WBgiGIh9S0a35o3l85w5y9hl8", "xmtLzSSO8nJgh6TStbRD0k0N91TpWfNZ6iREQDjIciGFqrj6G8")
+auth.set_access_token("2210920084-ukDZsTm1GWU3kNQip9Bk5o5EWGOAZpYP5rDa2pU", "zsH2103FjgAI0nQIW5uUaxA2kqzsRc5xQlFAHSDfdIrpZ")
 
-authAPI = auth
-collection = []
-count = 0
-user = authAPI.get_user('@StockTwits')
+'''userName = [
+    '@CNBC',
+    '@WSJmarkets'
+    #,'@StockTwits'
+    ]
+'''
+userName = '@Bespokeinvest' 
+allTweets = []
 
-endDate = datetime.utcnow - timedelta(days=10)
 
-for status in Cursor(authAPI.user_timeline, id = user, tweet_mode = 'extended').items(10):
+authAPI = API(auth)
+user = authAPI.get_user(userName)
 
-    if "retweeted_status" in dir(status):
-        collection.append(status.retweeted_status.full_text)
-    else:
-        collection.append(status.full_text)
+# We create a loop continously to collect data as much as we need i.e., here we are collecting till the endDate.
 
-    if status.created_at < endDate:
-        break
+#for accounts in userName:
+for status in Cursor(authAPI.user_timeline, id = userName, tweet_mode = 'extended', include_rts=False, exclude_replies=True).items(50):
+        
+    data = (
+        status.user.name,
+        status.created_at,
+        status.full_text,
+    )
 
-print(collection)
+    allTweets.append(data)
 
-"""
 with open('tweets.txt', 'w') as fileWrite:
-    for item in collection:
-        text = item.split("\n")
-        text = ' '.join(text).split()
-        fileWrite.write(' '.join(text))
+    for item in allTweets:
+        fileWrite.write(str(item))
         fileWrite.write('\n')
-"""
